@@ -57,6 +57,8 @@
         function loadFromLocalStorage() {
             const savedText = localStorage.getItem('savedText');
             const savedImage = localStorage.getItem('savedImage');
+            const additionalText = localStorage.getItem('additionalText');
+            const additionalImage = localStorage.getItem('additionalImage');
 
             // Menampilkan teks yang disimpan
             const displayArea = document.getElementById('displayArea');
@@ -66,10 +68,19 @@
                 displayArea.innerHTML += `<p><strong>Teks Disimpan:</strong> ${savedText}</p>`;
             }
 
-            // Menampilkan gambar yang disimpan
             if (savedImage) {
                 displayArea.innerHTML += `<p><strong>Gambar Disimpan:</strong></p>`;
                 displayArea.innerHTML += `<img src="${savedImage}" alt="Gambar Disimpan" style="max-width:200px; max-height:200px;">`;
+            }
+
+            // Menampilkan teks dan gambar tambahan jika ada
+            if (additionalText) {
+                displayArea.innerHTML += `<p><strong>Teks Tambahan Disimpan:</strong> ${additionalText}</p>`;
+            }
+
+            if (additionalImage) {
+                displayArea.innerHTML += `<p><strong>Gambar Tambahan Disimpan:</strong></p>`;
+                displayArea.innerHTML += `<img src="${additionalImage}" alt="Gambar Tambahan Disimpan" style="max-width:200px; max-height:200px;">`;
             }
         }
 
