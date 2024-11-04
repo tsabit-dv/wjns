@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Input dan Upload Gambar</title>
+</head>
+<body>
+    <h2>Form Input dan Upload Gambar</h2>
+    
+    <!-- Input Teks -->
+    <label for="inputText">Masukkan Teks:</label>
+    <input type="text" id="inputText" placeholder="Masukkan teks di sini">
+
+    <!-- Input Gambar -->
+    <label for="inputImage">Upload Gambar:</label>
+    <input type="file" id="inputImage" accept="image/*">
+
+    <!-- Tombol Simpan -->
+    <button onclick="saveToLocalStorage()">Simpan</button>
+
+    <!-- Tombol untuk Menampilkan Data yang Disimpan -->
+    <button onclick="loadFromLocalStorage()">Tampilkan Data</button>
+
+    <!-- Area untuk Menampilkan Gambar dan Teks yang Disimpan -->
+    <div id="displayArea"></div>
+
+    <script>
+        // Fungsi untuk menyimpan data ke local storage
+        function saveToLocalStorage() {
+            // Ambil nilai teks
+            const inputText = document.getElementById('inputText').value;
+            localStorage.setItem('savedText', inputText);
+
+            // Ambil file gambar
+            const inputImage = document.getElementById('inputImage').files[0];
+            if (inputImage) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Simpan gambar dalam format base64 ke local storage
+                    localStorage.setItem('savedImage', e.target.result);
+                    alert("Data berhasil disimpan!");
+                };
+                reader.readAsDataURL(inputImage);
+            } else {
+                alert("Harap pilih gambar untuk disimpan.");
+            }
+        }
+
+        // Fungsi untuk menampilkan data dari local storage
+        function loadFromLocalStorage() {
+            const savedText = localStorage.getItem('savedText');
+            const savedImage = localStorage.getItem('savedImage');
+
+            // Menampilkan teks yang disimpan
+            const displayArea = document.getElementById('displayArea');
+            displayArea.innerHTML = ''; // Kosongkan area sebelum menampilkan data baru
+
+            if (savedText) {
+                displayArea.innerHTML += `<p><strong>Teks Disimpan:</strong> ${savedText}</p>`;
+            }
+
+            // Menampilkan gambar yang disimpan
+            if (savedImage) {
+                displayArea.innerHTML += `<p><strong>Gambar Disimpan:</strong></p>`;
+                displayArea.innerHTML += `<img src="${savedImage}" alt="Gambar Disimpan" style="max-width:200px; max-height:200px;">`;
+            }
+        }
+    </script>
+</body>
+</html>
