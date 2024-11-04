@@ -25,6 +25,9 @@
     <!-- Area untuk Menampilkan Gambar dan Teks yang Disimpan -->
     <div id="displayArea"></div>
 
+    <!-- Area untuk Input Tambahan -->
+    <div id="additionalInputs"></div>
+
     <script>
         // Fungsi untuk menyimpan data ke local storage
         function saveToLocalStorage() {
@@ -40,6 +43,9 @@
                     // Simpan gambar dalam format base64 ke local storage
                     localStorage.setItem('savedImage', e.target.result);
                     alert("Data berhasil disimpan!");
+
+                    // Tambahkan input tambahan setelah data pertama disimpan
+                    addAdditionalInputs();
                 };
                 reader.readAsDataURL(inputImage);
             } else {
@@ -64,6 +70,57 @@
             if (savedImage) {
                 displayArea.innerHTML += `<p><strong>Gambar Disimpan:</strong></p>`;
                 displayArea.innerHTML += `<img src="${savedImage}" alt="Gambar Disimpan" style="max-width:200px; max-height:200px;">`;
+            }
+        }
+
+        // Fungsi untuk menambahkan dua input tambahan setelah data pertama disimpan
+        function addAdditionalInputs() {
+            const additionalInputs = document.getElementById('additionalInputs');
+
+            // Buat input teks baru
+            const additionalTextInput = document.createElement('input');
+            additionalTextInput.type = 'text';
+            additionalTextInput.id = 'additionalText';
+            additionalTextInput.placeholder = 'Masukkan teks tambahan';
+
+            // Buat input gambar baru
+            const additionalImageInput = document.createElement('input');
+            additionalImageInput.type = 'file';
+            additionalImageInput.id = 'additionalImage';
+            additionalImageInput.accept = 'image/*';
+
+            // Tambahkan elemen ke div tambahan
+            additionalInputs.appendChild(document.createElement('br'));
+            additionalInputs.appendChild(document.createTextNode('Masukkan Teks Tambahan: '));
+            additionalInputs.appendChild(additionalTextInput);
+
+            additionalInputs.appendChild(document.createElement('br'));
+            additionalInputs.appendChild(document.createTextNode('Upload Gambar Tambahan: '));
+            additionalInputs.appendChild(additionalImageInput);
+
+            // Tombol untuk menyimpan data tambahan
+            const saveAdditionalButton = document.createElement('button');
+            saveAdditionalButton.textContent = 'Simpan Data Tambahan';
+            saveAdditionalButton.onclick = saveAdditionalData;
+            additionalInputs.appendChild(document.createElement('br'));
+            additionalInputs.appendChild(saveAdditionalButton);
+        }
+
+        // Fungsi untuk menyimpan data tambahan ke local storage
+        function saveAdditionalData() {
+            const additionalText = document.getElementById('additionalText').value;
+            localStorage.setItem('additionalText', additionalText);
+
+            const additionalImage = document.getElementById('additionalImage').files[0];
+            if (additionalImage) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    localStorage.setItem('additionalImage', e.target.result);
+                    alert("Data tambahan berhasil disimpan!");
+                };
+                reader.readAsDataURL(additionalImage);
+            } else {
+                alert("Harap pilih gambar tambahan untuk disimpan.");
             }
         }
     </script>
